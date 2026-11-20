@@ -1,19 +1,18 @@
 FROM python:3.12-slim
 
-# ВАЖНО: Здесь заменен логин на rr20040305
-LABEL org.opencontainers.image.source="https://github.com/rr20040305/devops-ci-app"
+LABEL org.opencontainers.image.source="https://github.com/RR20040305/devops-ci-app"
+LABEL org.opencontainers.image.description="DevOps CI sample application"
+
+RUN useradd --system --no-create-home app
 
 WORKDIR /app
 
-RUN useradd -m app
-
-COPY app/requirements.txt .
+COPY app/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/ app/
+COPY app/ ./app/
 
 USER app
 
 EXPOSE 5000
-
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--access-logfile", "-", "app.app:app"]
