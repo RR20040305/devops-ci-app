@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 
 def create_app():
     """Создаёт и настраивает экземпляр приложения."""
-    application = Flask(  name  )
+    application = Flask(__name__)
 
     @application.get("/health")
     def health():
